@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Polo Finance • Uber / 99</title>
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#070a0f;--panel:#0d131d;--panel2:#111a27;--panel3:#162234;
+  --line:#243247;--line2:#38506f;--text:#f0f4fb;--muted:#8d9db3;
+  --blue:#5ca9ff;--cyan:#4cd9cc;--green:#53d58c;--amber:#f1bb5b;
+  --red:#ff7575;--violet:#ae91ff;--shadow:0 18px 50px rgba(0,0,0,.25);
+  --r:18px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+body{
+  background:
+    radial-gradient(circle at 7% 0%,rgba(92,169,255,.08),transparent 30rem),
+    radial-gradient(circle at 92% 8%,rgba(76,217,204,.06),transparent 32rem),
+    var(--bg);
+}
+button,input,select{font:inherit}
+button{user-select:none}
+.shell{max-width:1580px;margin:auto;padding:22px}
+.top{
+  display:flex;align-items:center;justify-content:space-between;gap:18px;
+  padding:18px 20px;border:1px solid var(--line);border-radius:22px;
+  background:linear-gradient(135deg,rgba(17,26,39,.96),rgba(8,13,21,.96));
+  box-shadow:var(--shadow);position:sticky;top:10px;z-index:30;backdrop-filter:blur(14px)
+}
+.brand{display:flex;align-items:center;gap:13px;min-width:0}
+.logo{
+  width:48px;height:48px;border-radius:15px;display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--blue),var(--cyan));color:#061018;
+  font-weight:950;letter-spacing:-1px;box-shadow:0 10px 28px rgba(92,169,255,.17)
+}
+.title{font-weight:860;font-size:19px;letter-spacing:-.025em}
+.sub{color:var(--muted);font-size:12px;margin-top:4px}
+.top-actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn{
+  border:1px solid var(--line);background:var(--panel2);color:var(--text);
+  padding:9px 13px;border-radius:11px;cursor:pointer;transition:.18s ease
+}
+.btn:hover{border-color:var(--line2);transform:translateY(-1px)}
+.btn.primary{background:var(--blue);color:#061018;border-color:transparent;font-weight:850}
+.btn.danger{color:#ffc1c1;border-color:rgba(255,117,117,.28);background:rgba(255,117,117,.06)}
+.tabs{
+  display:flex;gap:7px;margin:18px 0 16px;padding:5px;background:#09101a;
+  border:1px solid var(--line);border-radius:15px;width:max-content;max-width:100%;overflow:auto
+}
+.tab{
+  border:0;background:transparent;color:var(--muted);padding:10px 15px;border-radius:10px;
+  cursor:pointer;white-space:nowrap;font-size:12px;font-weight:750
+}
+.tab.active{background:var(--panel3);color:var(--text);box-shadow:inset 0 0 0 1px var(--line2)}
+.tab-pane{display:none}.tab-pane.active{display:block}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 385px;gap:18px}
+.main{min-width:0}.side{min-width:0}
+.card{
+  border:1px solid var(--line);border-radius:var(--r);
+  background:linear-gradient(180deg,rgba(17,26,39,.98),rgba(11,18,29,.98));
+  box-shadow:var(--shadow)
+}
+.section{margin-bottom:17px}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:10px;margin:0 2px 9px}
+.section-head h2{margin:0;font-size:12px;text-transform:uppercase;letter-spacing:.13em;color:#c9d6e8}
+.section-head small{color:var(--muted);font-size:11px}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px}
+.kpi{padding:17px;min-height:120px;position:relative;overflow:hidden}
+.kpi:after{content:"";position:absolute;right:-35px;top:-38px;width:100px;height:100px;border-radius:50%;background:rgba(92,169,255,.05)}
+.label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.11em}
+.value{font-size:26px;font-weight:880;letter-spacing:-.035em;margin-top:9px;white-space:nowrap}
+.foot{font-size:11px;color:var(--muted);margin-top:8px}
+.good{color:var(--green)!important}.warn{color:var(--amber)!important}.bad{color:var(--red)!important}.cyan{color:var(--cyan)!important}.blue{color:var(--blue)!important}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.panel{padding:17px}
+.panel-title{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:12px}
+.panel-title h3{margin:0;font-size:14px}.panel-title small{color:var(--muted);font-size:11px}
+.line{display:flex;justify-content:space-between;gap:14px;padding:10px 0;border-bottom:1px solid rgba(36,50,71,.55);font-size:12px}
+.line:last-child{border-bottom:0}.line span:first-child{color:var(--muted)}.line strong{font-variant-numeric:tabular-nums;text-align:right}
+.pill{display:inline-flex;align-items:center;padding:5px 8px;border:1px solid var(--line);border-radius:999px;background:#09111c;color:var(--muted);font-size:10px}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:13px}
+.vehicle-card{padding:18px;display:grid;grid-template-columns:220px 1fr;gap:18px;align-items:center}
+.vehicle-visual{
+  height:140px;border:1px solid var(--line);border-radius:18px;position:relative;overflow:hidden;
+  background:
+    radial-gradient(circle at 70% 25%,rgba(92,169,255,.14),transparent 45%),
+    linear-gradient(160deg,#101b2b,#080e16 70%)
+}
+.car-shape{position:absolute;left:22px;right:22px;top:53px;height:42px;border-radius:42px 50px 15px 13px;background:linear-gradient(90deg,#313a47,#717b86 52%,#343d48);box-shadow:0 13px 28px rgba(0,0,0,.28)}
+.car-roof{position:absolute;left:58px;top:32px;width:92px;height:43px;border-radius:52px 52px 7px 7px;background:linear-gradient(135deg,#5d6874,#9aa4ad);clip-path:polygon(20% 100%,35% 5%,76% 5%,100% 100%)}
+.car-window{position:absolute;left:80px;top:39px;width:62px;height:29px;background:#172333;clip-path:polygon(12% 100%,25% 0,75% 0,100% 100%);opacity:.9}
+.wheel{position:absolute;bottom:25px;width:27px;height:27px;border-radius:50%;background:#05080d;border:5px solid #596574}.w1{left:50px}.w2{right:45px}
+.vw-mark{position:absolute;right:12px;top:10px;font-size:11px;color:#cfe1f5;border:1px solid rgba(207,225,245,.2);padding:5px 7px;border-radius:999px;background:rgba(7,10,15,.45)}
+.vehicle-name{position:absolute;left:12px;bottom:10px;font-size:10px;color:#dfe9f5;padding:5px 8px;border:1px solid rgba(255,255,255,.08);border-radius:999px;background:rgba(7,10,15,.68)}
+.eff-main .big{font-size:34px;font-weight:900;letter-spacing:-.04em}.eff-main .unit{font-size:14px;color:var(--muted);font-weight:650}
+.eff-bars{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:13px}
+.mini{padding:10px;background:#09111b;border:1px solid var(--line);border-radius:11px}
+.mini .t{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}.mini .v{font-size:14px;font-weight:800;margin-top:4px}
+.goal-box{padding:17px}
+.goal-progress{height:9px;background:#08101b;border-radius:999px;overflow:hidden;margin:10px 0 6px}
+.goal-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--green));width:0%;border-radius:999px;transition:.25s}
+.week-targets{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:12px}
+.target{padding:11px;background:#09111b;border:1px solid var(--line);border-radius:12px}
+.target .t{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}.target .v{font-size:15px;font-weight:820;margin-top:4px}
+.schedule{display:grid;grid-template-columns:1.25fr repeat(5,.7fr)}
+.schedule>div{padding:10px 9px;border-bottom:1px solid rgba(36,50,71,.5);font-size:11px}
+.schedule .head{color:var(--muted);font-size:9px;text-transform:uppercase;letter-spacing:.08em}
+.schedule .em{font-weight:750}
+.cost-row{display:grid;grid-template-columns:1fr 92px;gap:10px;align-items:center;margin:11px 0}
+.cost-name{display:flex;justify-content:space-between;gap:8px;font-size:11px}.cost-name span:first-child{color:#ced9e8}.cost-name span:last-child{color:var(--muted)}
+.track{height:6px;background:#08101b;border-radius:999px;overflow:hidden;margin-top:5px}.fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--blue),var(--cyan));min-width:2px}
+.cost-value{text-align:right;font-size:11px;font-weight:750}
+.scenarios{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:11px}
+.scenario{border:1px solid var(--line);background:#09111b;color:var(--muted);padding:9px 6px;border-radius:10px;cursor:pointer;font-size:11px}
+.scenario.active{border-color:var(--blue);color:var(--text);background:rgba(92,169,255,.07)}
+.notice{padding:13px 15px;border:1px solid rgba(241,187,91,.25);background:rgba(241,187,91,.055);border-radius:14px;color:#dac59e;font-size:11px;line-height:1.55}
+.editor{padding:17px;position:sticky;top:105px;max-height:calc(100vh - 122px);overflow:auto}
+.editor::-webkit-scrollbar{width:8px}.editor::-webkit-scrollbar-thumb{background:#243550;border-radius:10px}
+.editor h3{margin:0 0 4px;font-size:15px}.editor-intro{margin:0;color:var(--muted);font-size:11px;line-height:1.45}
+.group{border-top:1px solid var(--line);padding-top:13px;margin-top:13px}.group-title{font-size:9px;text-transform:uppercase;letter-spacing:.13em;color:var(--blue);margin-bottom:9px}
+.field{margin-bottom:10px}.field label{display:flex;justify-content:space-between;gap:8px;color:#cbd7e8;font-size:10px;margin-bottom:5px}.field label small{color:var(--muted)}
+.field input,.field select{width:100%;background:#08101a;border:1px solid #253650;color:var(--text);border-radius:9px;padding:8px 9px;outline:none}
+.field input:focus,.field select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(92,169,255,.06)}
+.inline{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.diary-wrap{display:grid;grid-template-columns:365px minmax(0,1fr);gap:14px}
+.diary-form{padding:17px}
+.diary-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:14px}
+table{width:100%;border-collapse:collapse;min-width:1080px;background:#0a111b}
+th,td{padding:10px 9px;border-bottom:1px solid var(--line);font-size:10px;text-align:right}
+th{position:sticky;top:0;background:#111a27;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;font-size:9px}
+th:first-child,td:first-child,th:nth-child(2),td:nth-child(2){text-align:left}
+tr:last-child td{border-bottom:0}
+.icon-btn{border:1px solid var(--line);background:#101927;color:var(--muted);border-radius:8px;padding:5px 8px;cursor:pointer}
+.icon-btn:hover{color:#fff}
+.compare{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.compare-card{padding:13px;background:#09111b;border:1px solid var(--line);border-radius:12px}
+.compare-card .t{font-size:9px;color:var(--muted);text-transform:uppercase}.compare-card .v{font-size:18px;font-weight:850;margin-top:5px}.compare-card .s{font-size:10px;color:var(--muted);margin-top:4px}
+.empty{text-align:center;padding:28px;color:var(--muted);font-size:11px}
+.footer{padding:12px 2px 28px;color:var(--muted);font-size:10px;line-height:1.55}
+@media(max-width:1200px){.layout{grid-template-columns:1fr}.editor{position:static;max-height:none}.kpis{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:900px){.hero-grid,.grid2,.diary-wrap{grid-template-columns:1fr}.vehicle-card{grid-template-columns:1fr}.diary-summary{grid-template-columns:repeat(2,1fr)}.week-targets{grid-template-columns:repeat(2,1fr)}.compare{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:650px){
+ .shell{padding:10px}.top{position:static;align-items:flex-start;flex-direction:column}.kpis,.grid3{grid-template-columns:1fr}
+ .scenarios{grid-template-columns:repeat(2,1fr)}.schedule{grid-template-columns:1.25fr repeat(2,.8fr)}
+ .schedule .mob-hide{display:none}.value{font-size:23px}.week-targets,.diary-summary,.compare{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+  <header class="top">
+    <div class="brand">
+      <div class="logo">POLO</div>
+      <div>
+        <div class="title">Polo Finance • Uber / 99</div>
+        <div class="sub">Volkswagen Polo Comfortline Automático 2023/2024 • Planejamento + Diário Real</div>
+      </div>
+    </div>
+    <div class="top-actions">
+      <a class="btn primary" href="./index.html" style="text-decoration:none">← Polo Finance 1.4</a>
+      <button class="btn" onclick="saveSettings()">Salvar premissas</button>
+      <button class="btn" onclick="exportBackup()">Backup JSON</button>
+      <button class="btn" onclick="document.getElementById('backupFile').click()">Restaurar backup</button>
+      <input id="backupFile" type="file" accept=".json,application/json" style="display:none" onchange="importBackup(event)">
+      <button class="btn primary" onclick="showTab('diario')">+ Lançar corrida do dia</button>
+    </div>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab active" data-tab="painel" onclick="showTab('painel')">01 • Painel & Projeção</button>
+    <button class="tab" data-tab="diario" onclick="showTab('diario')">02 • Diário de Bordo Real</button>
+  </nav>
+
+  <section id="painel" class="tab-pane active">
+    <div class="layout">
+      <main class="main">
+        <section class="section">
+          <div class="section-head"><h2>Visão mensal</h2><small id="scenarioLabel">Cenário Base</small></div>
+          <div class="kpis">
+            <article class="card kpi"><div class="label">Faturamento bruto</div><div class="value cyan" id="gross">R$ 0</div><div class="foot" id="grossHour">R$ 0/h médio</div></article>
+            <article class="card kpi"><div class="label">Custos de caixa</div><div class="value" id="costTotal">R$ 0</div><div class="foot" id="costKm">R$ 0/km</div></article>
+            <article class="card kpi"><div class="label">Lucro livre</div><div class="value" id="cashProfit">R$ 0</div><div class="foot" id="margin">Margem 0%</div></article>
+            <article class="card kpi"><div class="label">Custo por corrida</div><div class="value blue" id="costRide">R$ 0</div><div class="foot" id="ridesMonth">0 corridas/mês</div></article>
+          </div>
+        </section>
+
+        <section class="section hero-grid">
+          <article class="card vehicle-card">
+            <div class="vehicle-visual">
+              <div class="car-roof"></div><div class="car-window"></div><div class="car-shape"></div>
+              <div class="wheel w1"></div><div class="wheel w2"></div>
+              <div class="vw-mark">TSI • AT</div><div class="vehicle-name">Polo Comfortline • 2023/2024</div>
+            </div>
+            <div class="eff-main">
+              <div class="label">Consumo do Polo — leitura igual ao carro</div>
+              <div><span class="big" id="effKmL">10,0</span> <span class="unit">km/L</span></div>
+              <div class="eff-bars">
+                <div class="mini"><div class="t">Combustível / 100 km</div><div class="v" id="liters100">10,0 L</div></div>
+                <div class="mini"><div class="t">Combustível / km</div><div class="v" id="fuelPerKm">R$ 0,38</div></div>
+                <div class="mini"><div class="t">Combustível / mês</div><div class="v warn" id="fuelMonth">R$ 0</div></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="card goal-box">
+            <div class="panel-title"><h3>Meta de renda livre</h3><span class="pill" id="goalPill">R$ 1.500/mês</span></div>
+            <div class="line"><span>Faturamento necessário</span><strong id="goalGross">R$ 0</strong></div>
+            <div class="line"><span>R$/h necessário</span><strong id="goalRate">R$ 0/h</strong></div>
+            <div class="line"><span>Projeção atual da meta</span><strong id="goalStatus">0%</strong></div>
+            <div class="goal-progress"><div class="goal-fill" id="goalFill"></div></div>
+            <div class="foot" id="goalGap">Faltam R$ 0 para a meta.</div>
+          </article>
+        </section>
+
+        <section class="section">
+          <div class="section-head"><h2>Metas semanais</h2><small>Baseadas na sua meta mensal e escala atual</small></div>
+          <article class="card panel">
+            <div class="week-targets">
+              <div class="target"><div class="t">Bruto / semana</div><div class="v" id="weeklyGrossGoal">R$ 0</div></div>
+              <div class="target"><div class="t">Lucro / semana</div><div class="v" id="weeklyProfitGoal">R$ 0</div></div>
+              <div class="target"><div class="t">Corridas / semana</div><div class="v" id="weeklyRidesGoal">0</div></div>
+              <div class="target"><div class="t">Km / semana</div><div class="v" id="weeklyKmGoal">0</div></div>
+            </div>
+            <div class="line"><span>Meta por manhã (Ter–Sex)</span><strong id="goalMorning">R$ 0</strong></div>
+            <div class="line"><span>Meta por sábado</span><strong id="goalSat">R$ 0</strong></div>
+            <div class="line"><span>Meta por domingo trabalhado</span><strong id="goalSun">R$ 0</strong></div>
+          </article>
+        </section>
+
+        <section class="section grid2">
+          <article class="card panel">
+            <div class="panel-title"><h3>Rotina de trabalho</h3><small>Projeção do cenário atual</small></div>
+            <div class="schedule">
+              <div class="head">Período</div><div class="head">h/dia</div><div class="head">R$/h</div><div class="head mob-hide">km/dia</div><div class="head mob-hide">corridas</div><div class="head mob-hide">bruto/dia</div>
+              <div class="em">Ter–Sex manhã</div><div id="mHours"></div><div id="mRate"></div><div class="mob-hide" id="mKm"></div><div class="mob-hide" id="mRides"></div><div class="mob-hide em" id="mGross"></div>
+              <div class="em">Sábado</div><div id="sHours"></div><div id="sRate"></div><div class="mob-hide" id="sKm"></div><div class="mob-hide" id="sRides"></div><div class="mob-hide em" id="sGross"></div>
+              <div class="em">Domingo</div><div id="dHours"></div><div id="dRate"></div><div class="mob-hide" id="dKm"></div><div class="mob-hide" id="dRides"></div><div class="mob-hide em" id="dGross"></div>
+            </div>
+            <div class="line"><span>Semana típica sem domingo</span><strong id="weekGross">R$ 0</strong></div>
+            <div class="line"><span>Horas planejadas no mês</span><strong id="monthHours">0h</strong></div>
+            <div class="line"><span>Km planejados no mês</span><strong id="monthKm">0 km</strong></div>
+          </article>
+
+          <article class="card panel">
+            <div class="panel-title"><h3>Combustível</h3><span class="pill" id="fuelTypePill">Etanol</span></div>
+            <div class="line"><span>Preço selecionado</span><strong id="fuelPriceView">R$ 3,80/L</strong></div>
+            <div class="line"><span>Consumo configurado</span><strong id="consumptionView">10,0 km/L</strong></div>
+            <div class="line"><span>Litros necessários no mês</span><strong id="litersMonth">0 L</strong></div>
+            <div class="line"><span>Litros estimados por sábado</span><strong id="satLiters">0 L</strong></div>
+            <div class="line"><span>Custo de combustível por sábado</span><strong id="satFuelCost">R$ 0</strong></div>
+            <div class="grid3" style="margin-top:10px">
+              <div class="mini"><div class="t">R$ 3,50/L</div><div class="v" id="f350">R$ 0</div></div>
+              <div class="mini"><div class="t">R$ 3,80/L</div><div class="v" id="f380">R$ 0</div></div>
+              <div class="mini"><div class="t">R$ 4,10/L</div><div class="v" id="f410">R$ 0</div></div>
+            </div>
+          </article>
+        </section>
+
+        <section class="section grid2">
+          <article class="card panel">
+            <div class="panel-title"><h3>Composição dos custos</h3><small id="totalCostSmall"></small></div>
+            <div id="costList"></div>
+          </article>
+          <article class="card panel">
+            <div class="panel-title"><h3>Cenários de faturamento</h3><small>Clique para aplicar</small></div>
+            <div class="scenarios">
+              <button class="scenario" data-scenario="Conservador" onclick="applyScenario('Conservador')">Conservador<br><b>R$ 38/h</b></button>
+              <button class="scenario active" data-scenario="Base" onclick="applyScenario('Base')">Base<br><b>R$ 45/h</b></button>
+              <button class="scenario" data-scenario="Meta" onclick="applyScenario('Meta')">Meta<br><b>R$ 50/h</b></button>
+              <button class="scenario" data-scenario="Forte" onclick="applyScenario('Forte')">Forte<br><b>R$ 55/h</b></button>
+            </div>
+            <div id="scenarioRows"></div>
+          </article>
+        </section>
+
+        <section class="section">
+          <article class="notice">
+            <b>Custos variáveis totalmente editáveis:</b> combustível, consumo, manutenção, pneus, pedágios/estacionamentos e outros custos variáveis.
+            O objetivo é você começar com premissas e, depois das primeiras semanas de Uber/99, substituir tudo pelos seus números reais.
+          </article>
+        </section>
+
+        <section class="section">
+          <article class="card panel">
+            <div class="panel-title"><h3>Financiamento do Polo</h3><small>Entrada + 48 parcelas</small></div>
+            <div class="grid2">
+              <div>
+                <div class="line"><span>Valor do veículo</span><strong id="carView"></strong></div>
+                <div class="line"><span>Entrada</span><strong id="downView"></strong></div>
+                <div class="line"><span>Parcela mensal</span><strong id="regularView"></strong></div>
+              </div>
+              <div>
+                <div class="line"><span>Total das parcelas</span><strong id="installmentsTotal"></strong></div>
+                <div class="line"><span>Total nominal c/ entrada</span><strong id="finTotal"></strong></div>
+                <div class="line"><span>Acréscimo sobre valor do carro</span><strong id="finPct"></strong></div>
+              </div>
+            </div>
+          </article>
+        </section>
+      </main>
+
+      <aside class="side">
+        <section class="card editor">
+          <h3>Premissas editáveis</h3>
+          <p class="editor-intro">A ideia agora é registrar seus valores reais. Todos os custos operacionais podem ser alterados livremente.</p>
+
+          <div class="group"><div class="group-title">Combustível / consumo</div>
+            <div class="field"><label><span>Combustível</span></label>
+              <select id="fuelType"><option value="Etanol" selected>Etanol</option><option value="Gasolina">Gasolina</option></select>
+            </div>
+            <div class="inline">
+              <div class="field"><label><span>Preço por litro</span><small>R$/L</small></label><input id="fuelPrice" type="number" value="3.80" step="0.01" min="0"></div>
+              <div class="field"><label><span>Consumo médio</span><small>km/L</small></label><input id="kmPerLiter" type="number" value="10" step="0.1" min="1"></div>
+            </div>
+          </div>
+
+          <div class="group"><div class="group-title">Faturamento e corridas</div>
+            <div class="field"><label><span>Âncora bruto por hora</span><small>R$/h</small></label><input id="baseRate" type="number" value="45" step="1" min="0"></div>
+            <div class="inline">
+              <div class="field"><label><span>Multip. sábado</span></label><input id="satMult" type="number" value="1.08" step="0.01" min="0"></div>
+              <div class="field"><label><span>Multip. domingo</span></label><input id="sunMult" type="number" value="1.05" step="0.01" min="0"></div>
+            </div>
+            <div class="field"><label><span>Média de corridas por hora</span><small>premissa</small></label><input id="ridesHour" type="number" value="1.5" step="0.1" min="0.1"></div>
+            <div class="field"><label><span>Meta de lucro livre mensal</span><small>R$</small></label><input id="profitGoal" type="number" value="1500" step="100" min="0"></div>
+          </div>
+
+          <div class="group"><div class="group-title">Escala</div>
+            <div class="inline">
+              <div class="field"><label><span>Manhãs/sem.</span></label><input id="morningSessions" type="number" value="4" step="1" min="0"></div>
+              <div class="field"><label><span>Horas/manhã</span></label><input id="morningHoursInput" type="number" value="2.5" step="0.5" min="0"></div>
+            </div>
+            <div class="inline">
+              <div class="field"><label><span>Sábados/sem.</span></label><input id="satSessions" type="number" value="1" step="1" min="0"></div>
+              <div class="field"><label><span>Horas/sábado</span></label><input id="satHoursInput" type="number" value="12" step="0.5" min="0"></div>
+            </div>
+            <div class="inline">
+              <div class="field"><label><span>Domingos/mês</span></label><input id="sunSessionsMonth" type="number" value="2" step="1" min="0"></div>
+              <div class="field"><label><span>Horas/domingo</span></label><input id="sunHoursInput" type="number" value="9" step="0.5" min="0"></div>
+            </div>
+            <div class="field"><label><span>Velocidade média total</span><small>km/h</small></label><input id="avgSpeed" type="number" value="22" step="1" min="1"></div>
+          </div>
+
+          <div class="group"><div class="group-title">Custos fixos</div>
+            <div class="field"><label><span>Parcela financiamento</span><small>R$/mês</small></label><input id="regularPayment" type="number" value="2500" step="0.01" min="0"></div>
+            <div class="field"><label><span>Seguro</span><small>R$/mês</small></label><input id="insurance" type="number" value="350" step="10" min="0"></div>
+            <div class="field"><label><span>IPVA anual</span><small>% do carro</small></label><input id="ipvaPct" type="number" value="4" step="0.1" min="0"></div>
+            <div class="field"><label><span>Licenciamento anual</span><small>R$</small></label><input id="licenseAnnual" type="number" value="180" step="10" min="0"></div>
+            <div class="field"><label><span>Reserva imprevistos</span><small>R$/mês</small></label><input id="unexpected" type="number" value="100" step="10" min="0"></div>
+            <div class="field"><label><span>Outros custos fixos</span><small>R$/mês</small></label><input id="otherFixed" type="number" value="0" step="10" min="0"></div>
+          </div>
+
+          <div class="group"><div class="group-title">Custos variáveis</div>
+            <div class="inline">
+              <div class="field"><label><span>Manutenção</span><small>R$/km</small></label><input id="maintenanceKm" type="number" value="0.12" step="0.01" min="0"></div>
+              <div class="field"><label><span>Pneus</span><small>R$/km</small></label><input id="tiresKm" type="number" value="0.04" step="0.01" min="0"></div>
+            </div>
+            <div class="field"><label><span>Pedágio / estacionamento</span><small>R$/mês</small></label><input id="tollsMonth" type="number" value="0" step="10" min="0"></div>
+            <div class="field"><label><span>Outros custos variáveis</span><small>R$/mês</small></label><input id="otherVariable" type="number" value="0" step="10" min="0"></div>
+          </div>
+
+          <div class="group"><div class="group-title">Veículo / financiamento</div>
+            <div class="field"><label><span>Valor do Polo</span><small>R$ • confirme</small></label><input id="carPrice" type="number" value="78900" step="100" min="0"></div>
+            <div class="field"><label><span>Entrada paga</span><small>R$</small></label><input id="downPayment" type="number" value="11000" step="100" min="0"></div>
+            <div class="field"><label><span>Quantidade de parcelas</span></label><input id="installments" type="number" value="48" step="1" min="1"></div>
+            <div class="field"><label><span>Depreciação econômica</span><small>%/mês</small></label><input id="depreciationPct" type="number" value="0.7" step="0.1" min="0"></div>
+          </div>
+
+          <button class="btn" style="width:100%;margin-top:10px" onclick="resetSettings()">Restaurar valores padrão</button>
+        </section>
+      </aside>
+    </div>
+  </section>
+
+  <section id="diario" class="tab-pane">
+    <div class="section-head"><h2>Diário de bordo real</h2><small>Comece a alimentar assim que iniciar as corridas</small></div>
+
+    <div class="diary-summary">
+      <article class="card kpi"><div class="label">Bruto realizado</div><div class="value cyan" id="realGross">R$ 0</div><div class="foot" id="realDays">0 dias lançados</div></article>
+      <article class="card kpi"><div class="label">Saldo operacional</div><div class="value" id="realOperational">R$ 0</div><div class="foot">Após combustível e variáveis</div></article>
+      <article class="card kpi"><div class="label">Resultado após fixos</div><div class="value" id="realAfterFixed">R$ 0</div><div class="foot">Resultado mensal efetivo</div></article>
+      <article class="card kpi"><div class="label">Custo real / corrida</div><div class="value blue" id="realCostRide">R$ 0</div><div class="foot" id="realRides">0 corridas lançadas</div></article>
+    </div>
+
+    <section class="section card panel">
+      <div class="panel-title"><h3>Realizado x projeção</h3><small id="diaryMonthLabel"></small></div>
+      <div class="compare">
+        <div class="compare-card"><div class="t">Meta bruto mensal</div><div class="v" id="compareGoalGross">R$ 0</div><div class="s" id="compareGrossPct">0% atingido</div></div>
+        <div class="compare-card"><div class="t">R$/h real</div><div class="v" id="realPerHour">R$ 0</div><div class="s" id="projectedPerHour">Projeção: R$ 0/h</div></div>
+        <div class="compare-card"><div class="t">Custo real / km</div><div class="v" id="realPerKm">R$ 0</div><div class="s" id="projectedPerKm">Projeção: R$ 0/km</div></div>
+        <div class="compare-card"><div class="t">Consumo acompanhado</div><div class="v" id="realConsumption">—</div><div class="s">km/L com litros lançados</div></div>
+      </div>
+      <div class="goal-progress"><div class="goal-fill" id="realGoalFill"></div></div>
+    </section>
+
+    <div class="diary-wrap">
+      <section class="card diary-form">
+        <div class="panel-title"><h3>Lançar dia trabalhado</h3><span class="pill">Real</span></div>
+        <div class="field"><label><span>Mês visualizado</span></label><input id="filterMonth" type="month"></div>
+        <div class="field"><label><span>Data</span></label><input id="dDate" type="date"></div>
+        <div class="field"><label><span>Período</span></label>
+          <select id="dPeriod">
+            <option>Terça • manhã</option><option>Quarta • manhã</option><option>Quinta • manhã</option><option>Sexta • manhã</option>
+            <option>Sábado • puxado</option><option>Domingo • extra</option><option>Outro</option>
+          </select>
+        </div>
+        <div class="inline">
+          <div class="field"><label><span>Horas trabalhadas</span></label><input id="diaryHoursInput" type="text" inputmode="decimal" placeholder="2,5"></div>
+          <div class="field"><label><span>Corridas</span></label><input id="diaryRidesInput" type="text" inputmode="numeric" placeholder="4"></div>
+        </div>
+        <div class="field"><label><span>Faturamento bruto nos apps</span><small>R$</small></label><input id="diaryGrossInput" type="text" inputmode="decimal" placeholder="Ex.: 125,00"></div>
+        <div class="inline">
+          <div class="field"><label><span>Km rodados</span></label><input id="diaryKmInput" type="text" inputmode="decimal" placeholder="60"></div>
+          <div class="field"><label><span>Litros abastecidos</span></label><input id="diaryLitersInput" type="text" inputmode="decimal" placeholder="6,0"></div>
+        </div>
+        <div class="field"><label><span>Valor abastecido</span><small>R$</small></label><input id="diaryFuelCostInput" type="text" inputmode="decimal" placeholder="22,80"></div>
+        <div class="inline">
+          <div class="field"><label><span>Pedágio / estacionamento</span><small>R$</small></label><input id="diaryTollsInput" type="text" inputmode="decimal" value="0"></div>
+          <div class="field"><label><span>Outros variáveis</span><small>R$</small></label><input id="diaryOtherVariableInput" type="text" inputmode="decimal" value="0"></div>
+        </div>
+        <div class="field"><label><span>Observação</span><small>opcional</small></label><input id="dNote" type="text" placeholder="Ex.: chuva / dinâmica / aeroporto"></div>
+        <button class="btn primary" style="width:100%" onclick="addDiary()">Salvar registro</button>
+        <button class="btn" style="width:100%;margin-top:8px" onclick="exportCSV()">Exportar mês em CSV</button>
+        <button class="btn danger" style="width:100%;margin-top:8px" onclick="clearMonth()">Zerar apenas este mês</button>
+      </section>
+
+      <section>
+        <article class="card panel" style="margin-bottom:13px">
+          <div class="panel-title"><h3>Resumo do mês real</h3><small>Usa as mesmas premissas do painel</small></div>
+          <div class="grid3">
+            <div class="mini"><div class="t">Combustível pago</div><div class="v" id="realFuel">R$ 0</div></div>
+            <div class="mini"><div class="t">Km acumulados</div><div class="v" id="realKm">0 km</div></div>
+            <div class="mini"><div class="t">Horas acumuladas</div><div class="v" id="realHours">0h</div></div>
+          </div>
+          <div class="line"><span>Reserva manutenção + pneus</span><strong id="realVariableReserve">R$ 0</strong></div>
+          <div class="line"><span>Pedágios + outros variáveis lançados</span><strong id="realExtras">R$ 0</strong></div>
+          <div class="line"><span>Custos fixos considerados</span><strong id="realFixed">R$ 0</strong></div>
+          <div class="line"><span>Quanto falta para meta de lucro</span><strong id="realGoalGap">R$ 0</strong></div>
+          <div class="line"><span>Potencial de amortização</span><strong id="realAmortization">R$ 0</strong></div>
+        </article>
+
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Data</th><th>Período</th><th>Horas</th><th>Corridas</th><th>Bruto</th><th>Combustível</th><th>Litros</th><th>Km</th><th>R$/h</th><th>Bruto/km</th><th>Saldo op.</th><th></th></tr></thead>
+            <tbody id="diaryBody"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <footer class="footer">
+    Ferramenta de planejamento pessoal. O faturamento dos apps varia por demanda, região, categoria, tempo ocioso e estratégia.
+    O custo por corrida projetado usa a quantidade estimada de corridas por hora. No Diário, os indicadores passam a usar seus registros reais.
+    Para trocar de versão do HTML ou mover o arquivo para outro computador, gere um <b>Backup JSON</b> e restaure-o na nova versão.
+  </footer>
+</div>
+
+<script>
+const WEEKS=4.345;
+const brl=v=>new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(Number(v)||0);
+const n0=v=>new Intl.NumberFormat('pt-BR',{maximumFractionDigits:0}).format(Number(v)||0);
+const n1=v=>new Intl.NumberFormat('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1}).format(Number(v)||0);
+const pct=v=>new Intl.NumberFormat('pt-BR',{style:'percent',minimumFractionDigits:1,maximumFractionDigits:1}).format(Number(v)||0);
+const $=id=>document.getElementById(id);
+
+function storageGet(key){
+  try{return localStorage.getItem(key)}catch(e){return null}
+}
+function storageSet(key,value){
+  try{localStorage.setItem(key,value);return true}catch(e){return false}
+}
+function storageRemove(key){
+  try{localStorage.removeItem(key);return true}catch(e){return false}
+}
+function safeJson(raw,fallback){
+  try{return raw ? JSON.parse(raw) : fallback}catch(e){return fallback}
+}
+
+function parseNumberBR(raw){
+  if(raw===null || raw===undefined) return 0;
+  let s=String(raw).trim().replace(/\s/g,'').replace(/R\$/gi,'');
+  if(!s) return 0;
+  const comma=s.lastIndexOf(','), dot=s.lastIndexOf('.');
+  if(comma>-1 && dot>-1){
+    if(comma>dot) s=s.replace(/\./g,'').replace(',','.');
+    else s=s.replace(/,/g,'');
+  }else if(comma>-1){
+    s=s.replace(',','.');
+  }
+  const n=Number(s);
+  return Number.isFinite(n)?n:0;
+}
+const val=id=>parseNumberBR($(id)?.value);
+const set=(id,v)=>{if($(id)) $(id).value=v;};
+
+const settingsIds=['fuelType','fuelPrice','kmPerLiter','baseRate','satMult','sunMult','ridesHour','profitGoal',
+'morningSessions','morningHoursInput','satSessions','satHoursInput','sunSessionsMonth','sunHoursInput','avgSpeed',
+'regularPayment','insurance','ipvaPct','licenseAnnual','unexpected','otherFixed',
+'maintenanceKm','tiresKm','tollsMonth','otherVariable','carPrice','downPayment','installments','depreciationPct'];
+
+const defaults={fuelType:'Etanol',fuelPrice:3.80,kmPerLiter:10,baseRate:45,satMult:1.08,sunMult:1.05,ridesHour:1.5,profitGoal:1500,
+morningSessions:4,morningHoursInput:2.5,satSessions:1,satHoursInput:12,sunSessionsMonth:2,sunHoursInput:9,avgSpeed:22,
+regularPayment:2500,insurance:350,ipvaPct:4,licenseAnnual:180,unexpected:100,otherFixed:0,
+maintenanceKm:0.12,tiresKm:0.04,tollsMonth:0,otherVariable:0,carPrice:78900,downPayment:11000,installments:48,depreciationPct:0.7};
+
+let diary=safeJson(storageGet('polo_diary_v1'),[]); if(!Array.isArray(diary)) diary=[];
+
+function showTab(name){
+  document.querySelectorAll('.tab-pane').forEach(x=>x.classList.toggle('active',x.id===name));
+  document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.dataset.tab===name));
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(name==='diario')renderDiary();
+}
+function scenarioName(){const r=val('baseRate');return r===38?'Conservador':r===45?'Base':r===50?'Meta':r===55?'Forte':'Personalizado'}
+function applyScenario(name){
+  const p={Conservador:[38,1.05,1.02],Base:[45,1.08,1.05],Meta:[50,1.08,1.05],Forte:[55,1.09,1.06]}[name];
+  set('baseRate',p[0]);set('satMult',p[1]);set('sunMult',p[2]);recalc();
+}
+function paint(el,v,goodAt=0){el.classList.remove('good','warn','bad');el.classList.add(v>=goodAt?'good':v>=0?'warn':'bad')}
+
+function model(rateOverride=null){
+  const rate=rateOverride??val('baseRate');
+  const mh=val('morningSessions')*WEEKS*val('morningHoursInput');
+  const sh=val('satSessions')*WEEKS*val('satHoursInput');
+  const dh=val('sunSessionsMonth')*val('sunHoursInput');
+  const hours=mh+sh+dh, km=hours*val('avgSpeed'), rides=hours*val('ridesHour');
+  const gross=mh*rate+sh*(rate*val('satMult'))+dh*(rate*val('sunMult'));
+  const consumption=Math.max(.1,val('kmPerLiter')), liters=km/consumption, fuel=liters*val('fuelPrice');
+
+  const ipva=val('carPrice')*(val('ipvaPct')/100)/12;
+  const license=val('licenseAnnual')/12;
+  const maintenance=km*val('maintenanceKm'), tires=km*val('tiresKm');
+  const fixed=val('regularPayment')+val('insurance')+ipva+license+val('unexpected')+val('otherFixed');
+  const variable=fuel+maintenance+tires+val('tollsMonth')+val('otherVariable');
+  const total=fixed+variable, profit=gross-total;
+  const economic=profit-val('carPrice')*(val('depreciationPct')/100);
+  return {rate,mh,sh,dh,hours,km,rides,gross,consumption,liters,fuel,ipva,license,maintenance,tires,fixed,variable,total,profit,economic};
+}
+function goalGross(m){return m.total+val('profitGoal')}
+function distributeGoal(g){
+  const w=val('morningSessions')*WEEKS*val('morningHoursInput')+
+          val('satSessions')*WEEKS*val('satHoursInput')*val('satMult')+
+          val('sunSessionsMonth')*val('sunHoursInput')*val('sunMult');
+  const u=w?g/w:0;
+  return {morning:u*val('morningHoursInput'),sat:u*val('satHoursInput')*val('satMult'),sun:u*val('sunHoursInput')*val('sunMult')};
+}
+function recalc(){
+  const m=model(), targetGross=goalGross(m), targetRate=m.hours?targetGross/m.hours:0;
+  $('gross').textContent=brl(m.gross);$('grossHour').textContent=brl(m.hours?m.gross/m.hours:0)+'/h médio';
+  $('costTotal').textContent=brl(m.total);$('costKm').textContent=brl(m.km?m.total/m.km:0)+'/km total';
+  $('cashProfit').textContent=brl(m.profit);paint($('cashProfit'),m.profit,val('profitGoal'));
+  $('margin').textContent='Margem '+pct(m.gross?m.profit/m.gross:0);
+  $('costRide').textContent=brl(m.rides?m.total/m.rides:0);$('ridesMonth').textContent=n0(m.rides)+' corridas/mês • premissa';
+
+  const c=Math.max(.1,val('kmPerLiter'));
+  $('effKmL').textContent=n1(c);$('liters100').textContent=n1(100/c)+' L';
+  $('fuelPerKm').textContent=brl(val('fuelPrice')/c);$('fuelMonth').textContent=brl(m.fuel);
+
+  $('goalPill').textContent=brl(val('profitGoal'))+'/mês';$('goalGross').textContent=brl(targetGross);$('goalRate').textContent=brl(targetRate)+'/h';
+  const gp=val('profitGoal')>0?m.profit/val('profitGoal'):1;$('goalStatus').textContent=pct(Math.max(0,gp));$('goalFill').style.width=Math.max(0,Math.min(100,gp*100))+'%';
+  const gap=val('profitGoal')-m.profit;$('goalGap').textContent=gap>0?'Faltam '+brl(gap)+' para a meta.':'Meta superada em '+brl(Math.abs(gap))+'.';
+
+  const grossRide=m.rides?m.gross/m.rides:0,targetRides=grossRide?targetGross/grossRide:0;
+  $('weeklyGrossGoal').textContent=brl(targetGross/WEEKS);$('weeklyProfitGoal').textContent=brl(val('profitGoal')/WEEKS);
+  $('weeklyRidesGoal').textContent=n0(targetRides/WEEKS);$('weeklyKmGoal').textContent=n0(m.km/WEEKS)+' km';
+  const dg=distributeGoal(targetGross);$('goalMorning').textContent=brl(dg.morning);$('goalSat').textContent=brl(dg.sat);$('goalSun').textContent=brl(dg.sun);
+
+  const speed=val('avgSpeed'),rh=val('ridesHour'),mhr=val('morningHoursInput'),shr=val('satHoursInput'),dhr=val('sunHoursInput');
+  const sr=m.rate*val('satMult'),dr=m.rate*val('sunMult');
+  $('mHours').textContent=n1(mhr);$('mRate').textContent=brl(m.rate);$('mKm').textContent=n0(mhr*speed);$('mRides').textContent=n1(mhr*rh);$('mGross').textContent=brl(mhr*m.rate);
+  $('sHours').textContent=n1(shr);$('sRate').textContent=brl(sr);$('sKm').textContent=n0(shr*speed);$('sRides').textContent=n1(shr*rh);$('sGross').textContent=brl(shr*sr);
+  $('dHours').textContent=n1(dhr);$('dRate').textContent=brl(dr);$('dKm').textContent=n0(dhr*speed);$('dRides').textContent=n1(dhr*rh);$('dGross').textContent=brl(dhr*dr);
+  $('weekGross').textContent=brl(val('morningSessions')*mhr*m.rate+val('satSessions')*shr*sr);$('monthHours').textContent=n1(m.hours)+' h';$('monthKm').textContent=n0(m.km)+' km';
+
+  $('fuelTypePill').textContent=$('fuelType').value;$('fuelPriceView').textContent=brl(val('fuelPrice'))+'/L';$('consumptionView').textContent=n1(c)+' km/L';
+  $('litersMonth').textContent=n1(m.liters)+' L';
+  const satKm=shr*speed,satLiters=satKm/c;$('satLiters').textContent=n1(satLiters)+' L';$('satFuelCost').textContent=brl(satLiters*val('fuelPrice'));
+  $('f350').textContent=brl(m.liters*3.5);$('f380').textContent=brl(m.liters*3.8);$('f410').textContent=brl(m.liters*4.1);
+
+  const costs=[
+    ['Financiamento',val('regularPayment')],['Combustível',m.fuel],['Seguro',val('insurance')],
+    ['IPVA provisionado',m.ipva],['Manutenção',m.maintenance],['Pneus',m.tires],
+    ['Imprevistos',val('unexpected')],['Licenciamento',m.license],['Pedágio / estacionamento',val('tollsMonth')],
+    ['Outros fixos',val('otherFixed')],['Outros variáveis',val('otherVariable')]
+  ].filter(x=>x[1]>0).sort((a,b)=>b[1]-a[1]);
+  $('totalCostSmall').textContent=brl(m.total)+'/mês';const mx=Math.max(...costs.map(x=>x[1]),1);
+  $('costList').innerHTML=costs.map(([name,cost])=>`<div class="cost-row"><div><div class="cost-name"><span>${name}</span><span>${pct(cost/m.total)}</span></div><div class="track"><div class="fill" style="width:${Math.max(1,cost/mx*100)}%"></div></div></div><div class="cost-value">${brl(cost)}</div></div>`).join('');
+
+  $('scenarioRows').innerHTML=[['Conservador',38],['Base',45],['Meta',50],['Forte',55]].map(([name,r])=>{
+    const x=model(r);return `<div class="line"><span>${name} • ${brl(r)}/h</span><strong class="${x.profit>=val('profitGoal')?'good':x.profit>=0?'warn':'bad'}">${brl(x.profit)} livre</strong></div>`
+  }).join('');
+  document.querySelectorAll('.scenario').forEach(b=>b.classList.toggle('active',b.dataset.scenario===scenarioName()));$('scenarioLabel').textContent='Cenário '+scenarioName();
+
+  const car=val('carPrice'),down=val('downPayment'),installments=val('installments'),monthly=val('regularPayment');
+  const installmentsTotal=installments*monthly,total=down+installmentsTotal,extra=total-car;
+  $('carView').textContent=brl(car);$('downView').textContent=brl(down);$('regularView').textContent=brl(monthly);
+  $('installmentsTotal').textContent=brl(installmentsTotal);$('finTotal').textContent=brl(total);$('finPct').textContent=pct(car?extra/car:0);
+
+  renderDiary();
+}
+function saveSettings(){
+  const d={};settingsIds.forEach(id=>d[id]=$(id).value);
+  const ok=storageSet('polo_settings_v1',JSON.stringify(d));
+  const b=[...document.querySelectorAll('.top .btn')].find(x=>x.textContent.includes('Salvar'));
+  if(b){const old=b.textContent;b.textContent=ok?'✓ Premissas salvas':'⚠ Não foi possível salvar';setTimeout(()=>b.textContent=old,1300)}
+}
+function loadSettings(){
+  const d=safeJson(storageGet('polo_settings_v1'),null);
+  if(d && typeof d==='object') settingsIds.forEach(id=>{if(d[id]!==undefined && $(id)) $(id).value=d[id]});
+}
+function resetSettings(){
+  if(!confirm('Restaurar todas as premissas padrão?'))return;
+  Object.entries(defaults).forEach(([k,v])=>set(k,v));
+  storageRemove('polo_settings_v1');
+  recalc();
+}
+function exportBackup(){
+  const settings={};settingsIds.forEach(id=>settings[id]=$(id).value);
+  const data={version:'1.4',vehicle:'Volkswagen Polo Comfortline Automático 2023/2024',exportedAt:new Date().toISOString(),settings,diary,expenses:safeJson(storageGet('polo_expenses_v14'),[]),pots:safeJson(storageGet('polo_pots_v14'),null)};
+  downloadBlob(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),'polo-finance-backup.json');
+}
+function importBackup(event){
+  const file=event.target.files && event.target.files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=()=>{
+    try{
+      const data=JSON.parse(reader.result);
+      if(!data || typeof data!=='object') throw new Error('Formato inválido');
+      if(data.settings && typeof data.settings==='object'){
+        settingsIds.forEach(id=>{
+          if(data.settings[id]!==undefined && $(id)) $(id).value=data.settings[id];
+        });
+        storageSet('polo_settings_v1',JSON.stringify(data.settings));
+      }
+      if(Array.isArray(data.diary)){
+        diary=data.diary;
+        storageSet('polo_diary_v1',JSON.stringify(diary));
+      }
+      // Também preserva despesas e cofrinhos da versão 1.4, quando presentes.
+      if(Array.isArray(data.expenses)) storageSet('polo_expenses_v14',JSON.stringify(data.expenses));
+      if(data.pots && typeof data.pots==='object') storageSet('polo_pots_v14',JSON.stringify(data.pots));
+      recalc();
+      alert('Backup restaurado com sucesso.');
+    }catch(e){
+      alert('Não foi possível restaurar este backup. Verifique se o arquivo JSON pertence ao Polo Finance.');
+    }finally{
+      event.target.value='';
+    }
+  };
+  reader.onerror=()=>alert('Não foi possível ler o arquivo de backup.');
+  reader.readAsText(file,'utf-8');
+}
+function downloadBlob(blob,name){
+  const a=document.createElement('a');
+  const url=URL.createObjectURL(blob);
+  a.href=url;a.download=name;a.click();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+
+function initDates(){
+  const now=new Date(),y=now.getFullYear(),m=String(now.getMonth()+1).padStart(2,'0'),d=String(now.getDate()).padStart(2,'0');
+  if(!$('filterMonth').value)$('filterMonth').value=`${y}-${m}`;if(!$('dDate').value)$('dDate').value=`${y}-${m}-${d}`;
+}
+function addDiary(){
+  const rec={
+    id:Date.now(),
+    date:$('dDate').value,
+    period:$('dPeriod').value,
+    hours:val('diaryHoursInput'),
+    rides:val('diaryRidesInput'),
+    gross:val('diaryGrossInput'),
+    km:val('diaryKmInput'),
+    liters:val('diaryLitersInput'),
+    fuelCost:val('diaryFuelCostInput'),
+    tolls:val('diaryTollsInput'),
+    otherVariable:val('diaryOtherVariableInput'),
+    note:$('dNote').value.trim()
+  };
+
+  if(!rec.date){
+    alert('Selecione a data do dia trabalhado.');
+    $('dDate').focus();
+    return;
+  }
+  if(rec.gross<=0){
+    alert('Informe o faturamento bruto do dia com valor maior que zero. Você pode usar vírgula ou ponto, por exemplo: 125,50.');
+    $('diaryGrossInput').focus();
+    return;
+  }
+
+  diary.push(rec);
+  storageSet('polo_diary_v1',JSON.stringify(diary));
+  $('filterMonth').value=rec.date.slice(0,7);
+
+  ['diaryHoursInput','diaryRidesInput','diaryGrossInput','diaryKmInput',
+   'diaryLitersInput','diaryFuelCostInput','diaryTollsInput',
+   'diaryOtherVariableInput','dNote'].forEach(id=>$(id).value='');
+
+  $('diaryTollsInput').value='0';
+  $('diaryOtherVariableInput').value='0';
+  renderDiary();
+}
+function deleteDiary(id){diary=diary.filter(x=>x.id!==id);storageSet('polo_diary_v1',JSON.stringify(diary));renderDiary()}
+function monthRecords(){const month=$('filterMonth').value;return diary.filter(x=>x.date&&x.date.slice(0,7)===month).sort((a,b)=>a.date.localeCompare(b.date))}
+function renderDiary(){
+  if(!$('filterMonth'))return;
+  const rows=monthRecords(),m=model(),targetGross=goalGross(m),sum=k=>rows.reduce((a,x)=>a+(Number(x[k])||0),0);
+  const gross=sum('gross'),fuel=sum('fuelCost'),km=sum('km'),hours=sum('hours'),rides=sum('rides'),liters=sum('liters'),tolls=sum('tolls'),other=sum('otherVariable');
+  const reserve=km*(val('maintenanceKm')+val('tiresKm')),extras=tolls+other,op=gross-fuel-reserve-extras,after=op-m.fixed;
+  const costReal=fuel+reserve+extras+m.fixed;
+
+  $('realGross').textContent=brl(gross);$('realDays').textContent=rows.length+' dias lançados';
+  $('realOperational').textContent=brl(op);paint($('realOperational'),op,0);$('realAfterFixed').textContent=brl(after);paint($('realAfterFixed'),after,val('profitGoal'));
+  $('realCostRide').textContent=brl(rides?costReal/rides:0);$('realRides').textContent=n0(rides)+' corridas lançadas';
+  $('realFuel').textContent=brl(fuel);$('realKm').textContent=n0(km)+' km';$('realHours').textContent=n1(hours)+' h';
+  $('realVariableReserve').textContent=brl(reserve);$('realExtras').textContent=brl(extras);$('realFixed').textContent=brl(m.fixed);
+  const gap=val('profitGoal')-after;$('realGoalGap').textContent=gap>0?brl(gap):'Meta superada';
+  $('realAmortization').textContent=after>0?brl(after):'Ainda sem sobra';$('realAmortization').className=after>0?'good':'warn';
+
+  $('compareGoalGross').textContent=brl(targetGross);$('compareGrossPct').textContent=pct(targetGross?gross/targetGross:0)+' atingido';
+  $('realPerHour').textContent=brl(hours?gross/hours:0)+'/h';$('projectedPerHour').textContent='Projeção: '+brl(m.hours?m.gross/m.hours:0)+'/h';
+  $('realPerKm').textContent=brl(km?costReal/km:0)+'/km';$('projectedPerKm').textContent='Projeção: '+brl(m.km?m.total/m.km:0)+'/km';
+  $('realConsumption').textContent=liters>0?n1(km/liters)+' km/L':'—';
+  $('realGoalFill').style.width=Math.min(100,Math.max(0,targetGross?gross/targetGross*100:0))+'%';
+  const [yy,mm]=($('filterMonth').value||'--').split('-');$('diaryMonthLabel').textContent=yy&&mm?`${mm}/${yy}`:'';
+
+  const body=$('diaryBody');
+  if(!rows.length){body.innerHTML='<tr><td colspan="12"><div class="empty">Nenhum lançamento neste mês ainda. Quando começar as corridas, este será o seu histórico real.</div></td></tr>';return}
+  body.innerHTML=rows.map(x=>{
+    const reserveDay=(Number(x.km)||0)*(val('maintenanceKm')+val('tiresKm'));
+    const balance=(Number(x.gross)||0)-(Number(x.fuelCost)||0)-(Number(x.tolls)||0)-(Number(x.otherVariable)||0)-reserveDay;
+    const date=x.date.split('-').reverse().join('/');
+    return `<tr title="${(x.note||'').replaceAll('"','&quot;')}">
+      <td>${date}</td><td>${x.period}</td><td>${n1(x.hours)}</td><td>${n0(x.rides)}</td><td class="good">${brl(x.gross)}</td>
+      <td class="warn">${brl(x.fuelCost)}</td><td>${n1(x.liters)}</td><td>${n0(x.km)}</td>
+      <td>${brl(x.hours?x.gross/x.hours:0)}</td><td>${brl(x.km?x.gross/x.km:0)}</td><td>${brl(balance)}</td>
+      <td><button class="icon-btn" onclick="deleteDiary(${x.id})">✕</button></td></tr>`
+  }).join('');
+}
+function clearMonth(){
+  const month=$('filterMonth').value,rows=monthRecords();if(!rows.length)return;
+  if(!confirm(`Excluir ${rows.length} lançamento(s) de ${month}?`))return;
+  diary=diary.filter(x=>!x.date||x.date.slice(0,7)!==month);storageSet('polo_diary_v1',JSON.stringify(diary));renderDiary();
+}
+function exportCSV(){
+  const rows=monthRecords();if(!rows.length){alert('Não há lançamentos neste mês.');return}
+  const head=['Data','Periodo','Horas','Corridas','Faturamento','Combustivel','Litros','Km','Pedagios_Estacionamento','Outros_Variaveis','Observacao'];
+  const esc=v=>`"${String(v??'').replaceAll('"','""')}"`;
+  const lines=[head.join(';'),...rows.map(x=>[x.date,x.period,x.hours,x.rides,x.gross,x.fuelCost,x.liters,x.km,x.tolls,x.otherVariable,x.note].map(esc).join(';'))];
+  downloadBlob(new Blob(['\ufeff'+lines.join('\n')],{type:'text/csv;charset=utf-8'}),`polo-diario-${$('filterMonth').value}.csv`);
+}
+settingsIds.forEach(id=>{$(id).addEventListener('input',recalc);$(id).addEventListener('change',recalc)});
+$('filterMonth').addEventListener('change',renderDiary);
+loadSettings();initDates();recalc();
+</script>
+</body>
+</html>

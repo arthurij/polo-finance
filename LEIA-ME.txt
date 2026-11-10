@@ -1,0 +1,109 @@
+POLO FINANCE 1.4 — GUIA RÁPIDO
+=================================
+
+1. O QUE TEM AQUI
+
+index.html           -> Tela principal do aplicativo
+styles.css           -> Cores, tamanho dos cartões, layout para iPhone
+app.js               -> Regras, cálculos e salvamento dos lançamentos
+planejamento.html    -> Aplicativo original 1.3 preservado, com projeções,
+                        cálculos de financiamento, premissas e diário antigo
+manifest.webmanifest -> Nome e ícone do aplicativo instalado
+sw.js                -> Arquivos que o iPhone pode guardar para uso offline
+icons/               -> Ícones do app
+
+2. COMO TESTAR NO WINDOWS
+
+- Extraia todo o ZIP para uma pasta (não abra os arquivos de dentro do ZIP).
+- Dê dois cliques em "index.html". Deverá abrir no navegador.
+- Faça um lançamento fictício, veja Dashboard, Histórico e Cofrinhos.
+- Exporte um backup depois do teste.
+- "Planejamento 1.3" está no ícone da engrenagem ou na ação rápida do Dashboard.
+
+AVISO: ao abrir em endereços diferentes (file://, http://localhost, ou
+https://seu-site), cada endereço mantém SEUS PRÓPRIOS dados. Para migrar,
+sempre faça backup JSON no aparelho antigo e restaure no novo endereço.
+
+Para testar a experiência PWA real em um navegador no Windows, hospede
+em http://localhost. Se tiver Python instalado:
+  Abra o Prompt de Comando na pasta extraída e rode:
+  py -m http.server 8000
+  Acesse http://localhost:8000
+  Pare o servidor pressionando Ctrl+C.
+
+3. COMO ABRIR/INSTALAR NO IPHONE
+
+É preciso publicar os arquivos em HTTPS para instalar e usar offline.
+Uma alternativa gratuita é o GitHub Pages:
+
+A) Entre em https://github.com e crie uma conta (caso ainda não tenha).
+B) Crie um repositório público novo, por exemplo "polo-finance".
+C) Envie TODOS os arquivos extraídos, inclusive a pasta "icons".
+   Não envie o ZIP como único arquivo: o site precisa dos arquivos separados.
+D) No repositório, acesse Settings > Pages.
+E) Em Build and deployment, selecione Deploy from a branch, branch "main",
+   pasta "/ (root)". Salve e aguarde o endereço HTTPS aparecer.
+F) Abra esse endereço no Safari do iPhone.
+G) Toque em Compartilhar > Adicionar à Tela de Início > Adicionar.
+   Nas versões recentes do iOS, a opção pode aparecer em Mais opções.
+
+Dica: em iPhone, uma vez publicado, você pode atualizar código por um
+editor de arquivos do GitHub no navegador. Mas normalmente é mais
+confortável editar no computador e enviar as alterações ao repositório.
+O próprio aplicativo permite cadastrar e editar jornadas, despesas e metas
+dos cofrinhos no iPhone, sem precisar programar. Para corrigir uma jornada
+ou despesa, entre em Histórico e toque em "Editar".
+As movimentações dos cofrinhos podem ser excluídas e relançadas.
+
+NOTA DE PRIVACIDADE:
+Ao usar repositório PÚBLICO, o código e as premissas dentro dele serão
+públicos. Os lançamentos feitos no app ficam apenas no armazenamento
+local de cada navegador, e NÃO são enviados automaticamente ao GitHub.
+Nunca envie seus arquivos de backup JSON com valores reais ao repositório.
+
+4. REGRAS PRINCIPAIS
+
+- Ganhos Uber + 99 são receitas antes de despesas do carro.
+- Você informa diretamente os KM RODADOS reais, sem odômetro.
+- Abastecimento lançado no Diário já entra em Histórico e Despesas.
+  NÃO registre o mesmo abastecimento novamente em Despesa Avulsa.
+- Gastos pessoais e de trabalho do carro estão na MESMA conta geral.
+- Despesas previstas do Planejamento 1.3 NÃO entram automaticamente no
+  Dashboard real: registre os pagamentos quando acontecerem.
+- Cofrinhos representam reservas, NÃO despesas.
+  Saldo disponível = receitas - despesas pagas - aportes + retiradas.
+- Ao pagar uma despesa com a reserva, registre a retirada do cofrinho e
+  registre também o pagamento real em Histórico (são ações diferentes).
+
+5. COMPATIBILIDADE COM A VERSÃO 1.3
+
+- A versão original segue disponível em planejamento.html.
+- Se ambos estiverem sob o MESMO endereço, a v1.3 e a v1.4 acessam o
+  mesmo diário usando a chave "polo_diary_v1".
+- Para MIGRAR dados de outra versão: use Backup JSON na 1.3, abra
+  a engrenagem na 1.4 e use Restaurar backup.
+- Os registros antigos podem não identificar separadamente Uber e 99.
+  O total bruto anterior é preservado, identificado como legado.
+- Fazer a restauração SUBSTITUI os registros existentes no aparelho.
+
+6. DADOS E BACKUP — MUITO IMPORTANTE
+
+Os dados ficam no localStorage do navegador, NÃO em conta sincronizada.
+NÃO há nuvem nem sincronização entre Windows e iPhone.
+O Safari pode apagar dados locais por limpeza, restrições de armazenamento,
+remoção do app ou comportamento do sistema. Exporte JSON frequentemente,
+especialmente antes de atualizar ou mover o app.
+Para um futuro próximo, podemos adicionar sincronização criptografada ou
+outro armazenamento mais robusto, mas esta versão NÃO tem isso.
+
+7. COMO APRENDER A MODIFICAR
+
+Primeira melhoria: em styles.css, procure "--yellow:#ffd15a" e altere
+para a cor desejada. Salve e atualize a página.
+Segunda melhoria: em index.html, procure "Seu mês, em um só lugar." e
+modifique o título do Dashboard.
+Terceira melhoria: em app.js, procure "function calcMonth()" para ver
+como calculamos lucro operacional e saldo disponível.
+
+Polo Finance — app pessoal, versão de estudo. Não substitui conferência
+financeira ou registro contábil profissional.
